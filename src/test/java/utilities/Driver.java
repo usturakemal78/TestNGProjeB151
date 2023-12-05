@@ -4,69 +4,85 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import java.time.Duration;
+    /*
+    POM(Page Object Model)
+        Test senaryolarinin daha az kod ile yazilmasina ve bakiminin daha kolay yapilmasina
+        olanak saglayan yazilim test yontemidir. TestNG de ve CUCUMBER frameworklerinde POM kalibi kullanilir.
+     */
 
 public class Driver {
     private Driver(){
-     /*
-      Driver class'ından obje oluşturmanın önüne geçebilmek için
-    default constructor'ı private yaparak bunu engellemiş oluruz.
-    Bu kalıba da Singleton patter denir.
-
-      */
+        /*
+       Driver class'indan obje olusturmanin onunce gecebilmek icin
+       default constructor'i private yaparak bunu engellemis oluruz. Bu kaliba da Singleton pattern denir
+       */
+        // default olan constructor'i private yaparak baska package altinda  bu class'tan obje olusturmasını engelliyoruz. Singleton pattern
+//--> new'lenemez.
+//--> bunun icin kendi class'ina default constructor yazdik.
+//--> bu default constructor'in access modifier'i
+//--> private yapildigi icin baska class'larda Driver class'indan obje olusturulamaz.
     }
-
-    /*
-    POM(Page Object Model)
-           Test seneryolarının daha az kod ile yazılmasına ve bakımının daha kolay yapılmasına
-       olanak sağlayan yazılım test yöntemidir. TestNG ve Cucumber frameworklerinde POM kalıbı kullanılır.
-     */
     static WebDriver driver;
-    public static WebDriver getDriver() {
+
+    public static WebDriver getDriver(){
+         /*
+            Driver 'i her cagirdigimizda yeni bir pencere acilmasinin onune gecmek icin
+         if blogu icinde Eger driver'a deger ATANMAMISSA deger ata, eger deger atanmamissa
+         Driver'i ayni sayfada return et.
+           */
         /*
-            Driver'i her çağırdığımızda yeni bir pencere açılmasının önüne geçmek için
-         if bloğu içinde Eğer driver'a değer ATANMAMIŞSA değer ata, eğer değer atanmışsa
-         driver'i aynı sayfada return et
-             */
-        /*
-        Properties dosyasında key olarak belirttiğimiz browse'a aşağıdaki örnekteki gibi hangi değereri
-        belirtirsek testlerimiz o browser ile çalışır
+        Properties dosyasinda key olarak belirttigimiz browser'a asagidaki gibi hangi degeri
+        belirtirsek testlerimiz o browser ile calisir
          */
-        if (driver == null){//-->Driver'a değer atanmamışsa
+
+        if(driver == null) {//--> Driver'a deger atanmamissa
             switch (ConfigReader.getProperty("browser")){
-                case "chrome":
+                case "chrome" :
                     WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver();
                     break;
+
                 case "edge":
                     WebDriverManager.edgedriver().setup();
-                    driver = new EdgeDriver();
+                    driver= new EdgeDriver();
                     break;
-                case "safari":
+
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver= new FirefoxDriver();
+                    break;
+
+                case  "safari" :
                     WebDriverManager.safaridriver().setup();
                     driver = new SafariDriver();
                     break;
+
                 default:
                     WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver();
             }
             driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         }
         return driver;
+
     }
     public static void closeDriver(){
-        if (driver != null){//-->Driver'a değer atanmışsa, boş değilse
+        if(driver !=null) {//-->Driver'a deger atanmissa, bos degilse
             driver.close();
-            driver = null; //--> Driver'ı kapattıktan sonra boşalt
+            driver = null;//-->Driver'i kapattiktan sonra bosalt
         }
     }
     public static void quitDriver(){
-        if (driver != null){//-->Driver'a değer atanmışsa, boş değilse
+        if(driver !=null) {//-->Driver'a deger atanmissa, bos degilse
             driver.quit();
-            driver = null; //--> Driver'ı kapattıktan sonra boşalt
+            driver = null;//-->Driver'i kapattiktan sonra bosalt
         }
     }
+
+
 }

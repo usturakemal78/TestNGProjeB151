@@ -12,28 +12,26 @@ public class ExcelReader {
     Workbook workbook;
     Sheet sheet;
 
-    public ExcelReader(String dosyaYolu,String sayfaIsmi){
+    public ExcelReader(String dosyaYolu,String sayfaIsmi) {
         try {
             FileInputStream fis = new FileInputStream(dosyaYolu);
-            workbook= WorkbookFactory.create(fis);
-            sheet=workbook.getSheet(sayfaIsmi);
+            workbook = WorkbookFactory.create(fis);
+            sheet = workbook.getSheet(sayfaIsmi);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        //burada her seferinde exception atmasin diye try-catch bloguna aldik
 
     }
-    //Satir ve sütun sayılarını girdiğimizde, O hücredeki veriyi return eden method
-    public String getCellData(int satir,int sutun){
+    //Satir ve sutun sayilarini girdigimizde, O hücredeki veriyi return eden method
+    public String getCellData(int satir, int sutun){
         Cell cell = sheet.getRow(satir).getCell(sutun);
-        return cell.toString();
+        return  cell.toString();
     }
 
-    //Exceldeki satir sayısını return eden method
+    //Exceldeki satir sayisini return eden method
     public int rowCount(){
         return sheet.getLastRowNum();
     }
-
-
-
-
 }
+

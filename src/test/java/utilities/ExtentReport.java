@@ -40,7 +40,6 @@ public abstract class ExtentReport {
         }
         Driver.closeDriver();
     }
-
     @AfterTest(alwaysRun = true)
     public void tearDownTest() {
         extentReports.flush();
