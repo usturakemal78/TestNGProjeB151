@@ -12,6 +12,7 @@ public class TC01_AramaKutusuTesti {
         Driver.getDriver().get(ConfigReader.getProperty("amazonUrl"));
         Page page = new Page();
         page.aramaKutusu.sendKeys("iphone", Keys.ENTER);
+        //bazi kodları gönderemek için yazmam gerekiyordu
         Driver.closeDriver();
     }
 }
